@@ -1,0 +1,87 @@
+import tkinter as tk
+
+def lol():
+    print(lol)
+def close_window():
+    window.destroy()
+
+window = tk.Tk()
+window.title("Interaktywna Apteka")
+
+def logowanie():
+
+    def get_log(event):     #btw nie mam pojecia czym jest ten #event xD
+        global login
+        login = entry1.get()
+        res2.configure(text = "login to " + str(entry1.get())) #żebyś sobie ogarnal jak to dziala ci to zostawiam
+    def get_pass(event):
+        global password
+        password = entry2.get()
+        res.configure(text = "password = " + str(password))
+
+        # luj wie czemu to nie dziala, to wywolywanie funkcji przez entry.bind po prostu nie
+        # zwraca wartosci, nawet jesli od razu ją przypiszesz np password = 3, to i tak wyprintuje None
+        # password = entry2.get()
+        # res.configure(text = "password = " + str(password))
+        # return password
+
+    greeting = tk.Label(text="Podaj login i haslo:\n")
+    greeting.pack()
+
+    frame1 = tk.Frame(master=window, relief= tk.RAISED, borderwidth=1)
+    frame2 = tk.Frame(master=window, relief=tk.SUNKEN)
+
+    label_login = tk.Label(master=frame2, text="login:")
+    label_login.pack()
+    entry1 = tk.Entry(master=frame2, fg="black", bg="white", width=20)
+    entry1.bind("<KeyRelease>", get_log)
+    entry1.pack()
+
+    res2 = tk.Label(master=frame2)
+    res2.pack()
+
+    label_haslo = tk.Label(master=frame2, text="haslo:")
+    label_haslo.pack()
+    entry2 = tk.Entry(master=frame2, fg="black", bg="white", width=20)
+    entry2.bind("<KeyRelease>", get_pass) #teoretycznie teraz po kazdym kliknieciu przycisku
+                                        # wywoluje te funkcje, tylko czemu wtedy return nie dziala?
+    entry2.pack()
+
+    res=tk.Label(master=frame2)
+    res.pack()
+
+
+    frame2.pack()
+    frame1.pack()
+
+
+    button = tk.Button(
+        master=frame1,
+        text="Zaloguj",
+        width=15,
+        height=5,
+        bg="grey",
+        fg="black",
+        command = close_window
+    )
+    button.pack()
+    frame2.pack()
+
+#password = logowanie()
+
+logowanie()
+window.mainloop()
+
+print(login, password) #wyprintuje ci po zamknieciu okna, tzn kliknieciu zaloguj
+
+if login == "srebrny":
+    if password == "arab":
+        lol = tk.Tk()
+        lol.title("gzgzgzgzgzgzgzgzgzgzgzgzgzgzgz")
+        bang=tk.Label(text = "HELLO PRITI LEJDI \n PLZ SHOW BOOBZ AND VEGANE \n\n  （•_ㅅ_•） \n\nYUM YUM", bg="magenta2")
+        bang.config(font=("Courier", 100))
+        bang.pack()
+
+        lol.mainloop()
+
+
