@@ -9,7 +9,148 @@ except ImportError: #python2
 
 ################     Dane do zalogowania:    ################
 ################ Login to: 1     Hasło to: 2 ################
+usr = 1
+has = 2
 
+class lek:
+    def __init__(self, nazwa, cena, dawka, sa):
+            self.nazwa = nazwa
+            self.cena = cena
+            self.dawka = dawka
+l1 = lek("Mupirox", 14.99, "10mg/ml x 50ml", "mupirocyna")
+l2 = lek("Encorton", 9.99, "20x10mg", "predniozn")
+l3 = lek("Ibuprom", 12.99, "10x100mg", "ibuprofen")
+
+class SampleApp(tk.Tk):
+
+    def __init__(self, *args, **kwargs):
+        tk.Tk.__init__(self, *args, **kwargs)
+
+        self.title_font = tkfont.Font(family='Helvetica', size=18, weight="bold", slant="italic")
+
+        container = tk.Frame(self)
+        container.pack(side="top", fill="both", expand=True)
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure(0, weight=1)
+
+        self.frames = {}
+        for F in (Menu, PageOne, PageTwo, PageThree, PageFour, PageFive):
+            page_name = F.__name__
+            frame = F(parent=container, controller=self)
+            self.frames[page_name] = frame
+            frame.grid(row=0, column=0, sticky="nsew")
+
+        self.show_frame("Menu")
+
+    def show_frame(self, page_name):
+        frame = self.frames[page_name]
+        frame.tkraise()
+
+class Menu(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="Menu", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+
+        button1 = tk.Button(self, text="Idź do zarządzania lekami",
+                            command=lambda: controller.show_frame("PageOne"))
+        button2 = tk.Button(self, text="Idź do zarządzania fakturami",
+                            command=lambda: controller.show_frame("PageTwo"))
+        button3 = tk.Button(self, text="Idź do zarządzania magazynem",
+                            command=lambda: controller.show_frame("PageThree"))
+        button4 = tk.Button(self, text="Idź do zarządzania dostawami",
+                            command=lambda: controller.show_frame("PageFour"))
+        button5 = tk.Button(self, text="Idź do zarządzania pracownikami",
+                            command=lambda: controller.show_frame("PageFive"))
+        def exit():
+            sys.exit()
+
+        button6 = tk.Button(self, text="Wyloguj", bg="red",
+                            command=exit)
+        button1.pack()
+        button2.pack()
+        button3.pack()
+        button4.pack()
+        button5.pack()
+        button6.pack()
+
+class PageOne(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="Zarządzanie lekami", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+
+        button1 = tk.Button(self, text="Idź do menu",
+                           command=lambda: controller.show_frame("Menu"))
+        button2 = tk.Button(self, text="Idź do menu",
+                           command=lambda: controller.show_frame("Menu"))
+        button1.pack()
+        button2.pack()
+
+        def get_lek(event):
+            global g_l
+            g_l = entry1.get()
+
+
+        label_login = tk.Label(master=self, text="wpisz nazwę leku:")
+        label_login.pack()
+        entry1 = tk.Entry(master=self, fg="black", bg="white", width=20)
+        entry1.bind("<KeyRelease>", get_lek)
+        entry1.pack()
+
+        leki=[l1.nazwa,l2.nazwa,l3.nazwa]
+        for i in (leki): #nie dziala to xd
+            g_l = "a"
+            if g_l == i :
+                print(i.cena)
+
+class PageTwo(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="Zarządzanie fakturami", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        button = tk.Button(self, text="Idź do menu",
+                           command=lambda: controller.show_frame("Menu"))
+        button.pack()
+
+class PageThree(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="Zarządzanie magazynem", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        button = tk.Button(self, text="Idź do menu",
+                           command=lambda: controller.show_frame("Menu"))
+        button.pack()
+
+class PageFour(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="Zarządzanie dostawami", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        button = tk.Button(self, text="Idź do menu",
+                           command=lambda: controller.show_frame("Menu"))
+        button.pack()
+
+class PageFive(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+        label = tk.Label(self, text="Zarządzanie pracowniakmi", font=controller.title_font)
+        label.pack(side="top", fill="x", pady=10)
+        button = tk.Button(self, text="Idź do menu",
+                           command=lambda: controller.show_frame("Menu"))
+        button.pack()
 
 def logowanie():
 
@@ -35,20 +176,20 @@ def logowanie():
     frame2 = tk.Frame(master=window, relief=tk.SUNKEN)
 
     label_login = tk.Label(master=frame2, text="login:")
-    label_login.pack(side = "left")
+    label_login.pack(side = "top")
     entry1 = tk.Entry(master=frame2, fg="black", bg="white", width=20)
     entry1.bind("<KeyRelease>", get_log)
-    entry1.pack( side = "right")
+    entry1.pack( side = "top")
 
-    # res2 = tk.Label(master=frame2)
-    # res2.pack()
+    res2 = tk.Label(master=frame2)
+    res2.pack()
 
     label_haslo = tk.Label(master=frame2, text="haslo:")
-    label_haslo.pack(side="left")
-    entry2 = tk.Entry(master=frame2, fg="black", bg="white", width=20)
+    label_haslo.pack(side="top")
+    entry2 = tk.Entry(master=frame2, fg="black", bg="white", width=20, show='*')
     entry2.bind("<KeyRelease>", get_pass) #teoretycznie teraz po kazdym kliknieciu przycisku
                                         # wywoluje te funkcje, tylko czemu wtedy return nie dziala?
-    entry2.pack(side="right")
+    entry2.pack(side="top")
 
     res=tk.Label(master=frame2)
     res.pack()
@@ -80,162 +221,8 @@ logowanie()
 window.mainloop()
 
 
-
-
-
-if login == "1":
-    if password == "2":
-        class lek:
-            def __init__(self, nazwa, cena, dawka, sa):
-                self.nazwa = nazwa
-                self.cena = cena
-                self.dawka = dawka
-        l1 = lek("Mupirox", 14.99, "10mg/ml x 50ml", "mupirocyna")
-        l2 = lek("Encorton", 9.99, "20x10mg", "predniozn")
-        l3 = lek("Ibuprom", 12.99, "10x100mg", "ibuprofen")
-
-        class SampleApp(tk.Tk):
-
-            def __init__(self, *args, **kwargs):
-                tk.Tk.__init__(self, *args, **kwargs)
-
-                self.title_font = tkfont.Font(family='Helvetica', size=18, weight="bold", slant="italic")
-
-                container = tk.Frame(self)
-                container.pack(side="top", fill="both", expand=True)
-                container.grid_rowconfigure(0, weight=1)
-                container.grid_columnconfigure(0, weight=1)
-
-                self.frames = {}
-                for F in (Menu, PageOne, PageTwo, PageThree, PageFour, PageFive):
-                    page_name = F.__name__
-                    frame = F(parent=container, controller=self)
-                    self.frames[page_name] = frame
-                    frame.grid(row=0, column=0, sticky="nsew")
-
-                self.show_frame("Menu")
-
-            def show_frame(self, page_name):
-                frame = self.frames[page_name]
-                frame.tkraise()
-
-
-        class Menu(tk.Frame):
-
-            def __init__(self, parent, controller):
-                tk.Frame.__init__(self, parent)
-                self.controller = controller
-                label = tk.Label(self, text="Menu", font=controller.title_font)
-                label.pack(side="top", fill="x", pady=10)
-
-                button1 = tk.Button(self, text="Idź do zarządzania lekami",
-                                    command=lambda: controller.show_frame("PageOne"))
-                button2 = tk.Button(self, text="Idź do zarządzania fakturami",
-                                    command=lambda: controller.show_frame("PageTwo"))
-                button3 = tk.Button(self, text="Idź do zarządzania magazynem",
-                                    command=lambda: controller.show_frame("PageThree"))
-                button4 = tk.Button(self, text="Idź do zarządzania dostawami",
-                                    command=lambda: controller.show_frame("PageFour"))
-                button5 = tk.Button(self, text="Idź do zarządzania pracownikami",
-                                    command=lambda: controller.show_frame("PageFive"))
-                def exit():
-                    sys.exit()
-
-                button6 = tk.Button(self, text="Wyloguj", bg="red",
-                                    command=exit)
-                button1.pack()
-                button2.pack()
-                button3.pack()
-                button4.pack()
-                button5.pack()
-                button6.pack()
-
-        class PageOne(tk.Frame):
-
-            def __init__(self, parent, controller):
-                tk.Frame.__init__(self, parent)
-                self.controller = controller
-                label = tk.Label(self, text="Zarządzanie lekami", font=controller.title_font)
-                label.pack(side="top", fill="x", pady=10)
-
-                button1 = tk.Button(self, text="Idź do menu",
-                                   command=lambda: controller.show_frame("Menu"))
-                button2 = tk.Button(self, text="Idź do menu",
-                                   command=lambda: controller.show_frame("Menu"))
-                button1.pack()
-                button2.pack()
-
-                def get_lek(event):
-                    global g_l
-                    g_l = entry1.get()
-
-
-                label_login = tk.Label(master=self, text="wpisz nazwę leku:")
-                label_login.pack()
-                entry1 = tk.Entry(master=self, fg="black", bg="white", width=20)
-                entry1.bind("<KeyRelease>", get_lek)
-                entry1.pack()
-
-                leki=[l1.nazwa,l2.nazwa,l3.nazwa]
-                for i in (leki):
-                    g_l = "a"
-                    if g_l == i :
-                        print(i.cena)
-
-
-
-
-
-
-        class PageTwo(tk.Frame):
-
-            def __init__(self, parent, controller):
-                tk.Frame.__init__(self, parent)
-                self.controller = controller
-                label = tk.Label(self, text="Zarządzanie fakturami", font=controller.title_font)
-                label.pack(side="top", fill="x", pady=10)
-                button = tk.Button(self, text="Idź do menu",
-                                   command=lambda: controller.show_frame("Menu"))
-                button.pack()
-
-
-        class PageThree(tk.Frame):
-
-            def __init__(self, parent, controller):
-                tk.Frame.__init__(self, parent)
-                self.controller = controller
-                label = tk.Label(self, text="Zarządzanie magazynem", font=controller.title_font)
-                label.pack(side="top", fill="x", pady=10)
-                button = tk.Button(self, text="Idź do menu",
-                                   command=lambda: controller.show_frame("Menu"))
-                button.pack()
-
-
-        class PageFour(tk.Frame):
-
-            def __init__(self, parent, controller):
-                tk.Frame.__init__(self, parent)
-                self.controller = controller
-                label = tk.Label(self, text="Zarządzanie dostawami", font=controller.title_font)
-                label.pack(side="top", fill="x", pady=10)
-                button = tk.Button(self, text="Idź do menu",
-                                   command=lambda: controller.show_frame("Menu"))
-                button.pack()
-
-
-        class PageFive(tk.Frame):
-
-            def __init__(self, parent, controller):
-                tk.Frame.__init__(self, parent)
-                self.controller = controller
-                label = tk.Label(self, text="Zarządzanie pracowniakmi", font=controller.title_font)
-                label.pack(side="top", fill="x", pady=10)
-                button = tk.Button(self, text="Idź do menu",
-                                   command=lambda: controller.show_frame("Menu"))
-                button.pack()
-
-
-
+if login == usr:
+    if password == has:
         if __name__ == "__main__":
             app = SampleApp()
             app.mainloop()
