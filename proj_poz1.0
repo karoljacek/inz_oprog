@@ -10,8 +10,7 @@ except ImportError: #python2
 ################     Dane do zalogowania:    ################
 ################ Login to: 1     Hasło to: 2 ################
 
-def close_window():
-    window.destroy()
+
 def logowanie():
 
     def get_log(event):     #btw nie mam pojecia czym jest ten #event
@@ -20,6 +19,8 @@ def logowanie():
     def get_pass(event):
         global password
         password = entry2.get()
+    def close_window():
+            window.destroy()
 
         # nie wiem czemu to nie dziala, to wywolywanie funkcji przez entry.bind po prostu nie
         # zwraca wartosci, nawet jesli od razu ją przypiszesz np password = 3, to i tak wyprintuje None
@@ -34,20 +35,20 @@ def logowanie():
     frame2 = tk.Frame(master=window, relief=tk.SUNKEN)
 
     label_login = tk.Label(master=frame2, text="login:")
-    label_login.pack()
+    label_login.pack(side = "left")
     entry1 = tk.Entry(master=frame2, fg="black", bg="white", width=20)
     entry1.bind("<KeyRelease>", get_log)
-    entry1.pack()
+    entry1.pack( side = "right")
 
-    res2 = tk.Label(master=frame2)
-    res2.pack()
+    # res2 = tk.Label(master=frame2)
+    # res2.pack()
 
     label_haslo = tk.Label(master=frame2, text="haslo:")
-    label_haslo.pack()
+    label_haslo.pack(side="left")
     entry2 = tk.Entry(master=frame2, fg="black", bg="white", width=20)
     entry2.bind("<KeyRelease>", get_pass) #teoretycznie teraz po kazdym kliknieciu przycisku
                                         # wywoluje te funkcje, tylko czemu wtedy return nie dziala?
-    entry2.pack()
+    entry2.pack(side="right")
 
     res=tk.Label(master=frame2)
     res.pack()
@@ -80,8 +81,19 @@ window.mainloop()
 
 
 
+
+
 if login == "1":
     if password == "2":
+        class lek:
+            def __init__(self, nazwa, cena, dawka, sa):
+                self.nazwa = nazwa
+                self.cena = cena
+                self.dawka = dawka
+        l1 = lek("Mupirox", 14.99, "10mg/ml x 50ml", "mupirocyna")
+        l2 = lek("Encorton", 9.99, "20x10mg", "predniozn")
+        l3 = lek("Ibuprom", 12.99, "10x100mg", "ibuprofen")
+
         class SampleApp(tk.Tk):
 
             def __init__(self, *args, **kwargs):
@@ -121,11 +133,11 @@ if login == "1":
                 button2 = tk.Button(self, text="Idź do zarządzania fakturami",
                                     command=lambda: controller.show_frame("PageTwo"))
                 button3 = tk.Button(self, text="Idź do zarządzania magazynem",
-                                    command=lambda: controller.show_frame("PageTwo"))
+                                    command=lambda: controller.show_frame("PageThree"))
                 button4 = tk.Button(self, text="Idź do zarządzania dostawami",
-                                    command=lambda: controller.show_frame("PageTwo"))
+                                    command=lambda: controller.show_frame("PageFour"))
                 button5 = tk.Button(self, text="Idź do zarządzania pracownikami",
-                                    command=lambda: controller.show_frame("PageTwo"))
+                                    command=lambda: controller.show_frame("PageFive"))
                 def exit():
                     sys.exit()
 
@@ -145,9 +157,34 @@ if login == "1":
                 self.controller = controller
                 label = tk.Label(self, text="Zarządzanie lekami", font=controller.title_font)
                 label.pack(side="top", fill="x", pady=10)
-                button = tk.Button(self, text="Idź do menu",
+
+                button1 = tk.Button(self, text="Idź do menu",
                                    command=lambda: controller.show_frame("Menu"))
-                button.pack()
+                button2 = tk.Button(self, text="Idź do menu",
+                                   command=lambda: controller.show_frame("Menu"))
+                button1.pack()
+                button2.pack()
+
+                def get_lek(event):
+                    global g_l
+                    g_l = entry1.get()
+
+
+                label_login = tk.Label(master=self, text="wpisz nazwę leku:")
+                label_login.pack()
+                entry1 = tk.Entry(master=self, fg="black", bg="white", width=20)
+                entry1.bind("<KeyRelease>", get_lek)
+                entry1.pack()
+
+                leki=[l1.nazwa,l2.nazwa,l3.nazwa]
+                for i in (leki):
+                    g_l = "a"
+                    if g_l == i :
+                        print(i.cena)
+
+
+
+
 
 
         class PageTwo(tk.Frame):
